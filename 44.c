@@ -1,33 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h> 
+#define false 0
+#define true 1
 
-int a, b, c, p;
-int per(a, b, c) {
-	return a+b+c;
+
+double per (double a, double b, double c) {
+	return (a+b+c);
 }
-float s(a, b ,c, p) {
-	return sqrt(p * (p - a) * (p - b) * (p - c));
+  double s (double a, double b, double c, double p){
+
+	return (sqrt(p * (p - a) * (p - b) * (p - c)));
+}
+
+bool x(a, b, c){
+	return (a >= b + c || b >= a + c || c >= b + a);
 }
 
 int main() 
 {
-	int one, two, three, polusum;
+	double a, b, c;
+	double p;
 	printf("a: ");
-	scanf("%d", &one);
+	scanf("%lf", &a);
 	printf("b: ");
-	scanf("%d", &two);
+	scanf("%lf", &b);
 	printf("c: ");
-	scanf("%d", &three);
+	scanf("%lf", &c);
 	
-	if (one >= two + three || two >= one + three || three >= two + one) 
+	p = ((a + b + c) / 2);
+	if (x(a, b, c) == 0)
 	{
+
 		printf("error");
 	}
 	else 
 	{
-		printf("%d\n", per(one, two, three));
-		polusum = (one + two + three) / 2;
-		printf("%fl\n", s(one, two, three, polusum));
+	
+		printf("%lf\n", p);
+		//printf("%d\n", x(one, two, three));
+		printf("%lf\n", per(a, b, c));
+		printf("%lf\n", s(a, b, c, p));
+		
 	}
 }
