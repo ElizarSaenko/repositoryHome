@@ -59,7 +59,7 @@ int main() {
     return 0;
 }
 
-// функция выполнения операции между двумя матрицами
+// функция выполнения операции между двумя матриц-ми
 double* performOperation(double* matrix1, double* matrix2, int n, char operation) {
     int i, j;
     double* result;
