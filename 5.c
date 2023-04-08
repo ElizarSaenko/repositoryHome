@@ -20,7 +20,7 @@ int main()
     matrix1 = (double*)malloc(n * n * sizeof(double));
     matrix2 = (double*)malloc(n * n * sizeof(double));
 
-    // /запрос элементов первой матрицы
+    // запрос элементов первой матрицы
     printf("Enter the elements of the first matrix: \n");
     for (i = 0; i < n; i++)
     matrix1 = (double*)malloc(n * n * sizeof(double));
