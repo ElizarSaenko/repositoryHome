@@ -3,57 +3,50 @@
 #include "matrix_operations.h"
 
 int main() {
-    ///
-    int i, j, n;
-    printf("enter n: ");
+    int n, i;
+    printf("enter size of matrix: ");
     scanf("%d", &n);
-
-    double **matrix1 = (double **)malloc(n * sizeof(double *));
-    double **matrix2 = (double **)malloc(n * sizeof(double *));
-    for(i = 0; i < n; i++) {
-        matrix1[i] = (double *)malloc(n * sizeof(double));
-        matrix2[i] = (double *)malloc(n * sizeof(double));
-    }
-
-    printf("enter elenents:\n");
+    double **matrix1 = newMatrix(n);
+    double **matrix2 = newMatrix(n);
+    printf("enter elements first matrix :\n");
+    fillMatrix(matrix1, n);
+    printf("enter elements second matrix:\n");
+    fillMatrix(matrix2, n);
+    printf("enter action (+, -, *): ");
+    char operation;
+    scanf(" %c", &operation);
     
-    for(i = 0; i < n; i++) {
-        for(j = 0; j < n; j++) {
-            scanf("%lf", &matrix1[i][j]);
-        }
+    double **result;
+    switch (operation) 
+	{
+        case '+':
+            result = plusMatrix(matrix1, matrix2, n);
+            break;
+        case '-':
+            result = minusMatrix(matrix1, matrix2, n);
+            break;
+        case '*':
+            result = xMatrix(matrix1, matrix2, n);
+            break;
+        default:
+            printf("error\n");
+            return 1;
     }
 
-    printf("enter elenents of two matrix:\n");
-    for(i = 0; i < n; i++) {
-        for(j = 0; j < n; j++) {
-            scanf("%lf", &matrix2[i][j]);
-        }
+    printf("new matrix:\n");
+    
+    printMatrix(result, n);
+    
+    //Освобождаем память, использованную при работе
+    for (i = 0; i < n; i++)
+	{
+        free(matrix1[i]);
+        free(matrix2[i]);
+        free(result[i]);
     }
-
-    char op;
-    printf("enter (+, -, *): ");
-    scanf(" %c", &op);
-
-    // Вычисление операции над матрицами
-    double **result = matrix_operations(matrix1, matrix2, n, op);
-    if(result == NULL) {
-        return 1;
-    }
-
-    // Вывод результата
-    printf("result:\n");
-    for(i = 0; i < n; i++) {
-        for(j = 0; j < n; j++) {
-            printf("%lf ", result[i][j]);
-        }
-        printf("\n");
-    }
-
-    // Освобождение памяти
-    free_matrix(matrix1, n);
-    free_matrix(matrix2, n);
-    free_matrix(result, n);
+    free(matrix1);
+    free(matrix2);
+    free(result);
 
     return 0;
 }
-
