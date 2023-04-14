@@ -1,120 +1,59 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "matrix_operations.h"
 
-/// объявление функции, которая будет выполнять операцию с матрицами
-double* performOperation(double* matrix1, double* matrix2, int n, char operation);
-
-int main() 
-{
-    int n, i, j;
-    char operation;
-    double* matrix1;
-    double* matrix2;
-    double* result;
-
-    // запрос размерности матриц
-    printf("Enter the size of matrices (N): ");
+int main() {
+    ///
+    int i, j, n;
+    printf("enter n: ");
     scanf("%d", &n);
 
-    // динамическое выделение памяти
-    matrix1 = (double*)malloc(n * n * sizeof(double));
-    matrix2 = (double*)malloc(n * n * sizeof(double));
+    double **matrix1 = (double **)malloc(n * sizeof(double *));
+    double **matrix2 = (double **)malloc(n * sizeof(double *));
+    for(i = 0; i < n; i++) {
+        matrix1[i] = (double *)malloc(n * sizeof(double));
+        matrix2[i] = (double *)malloc(n * sizeof(double));
+    }
 
-    // запрос элементов первой матрицы
-    printf("Enter the elements of the first matrix: \n");
-    for (i = 0; i < n; i++)
-    matrix1 = (double*)malloc(n * n * sizeof(double));
-	{
-        for (j = 0; j < n; j++) 
-		{
-            scanf("%lf", &matrix1[i * n + j]);
+    printf("enter elenents:\n");
+    
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < n; j++) {
+            scanf("%lf", &matrix1[i][j]);
         }
     }
 
-    // запрос элементов второй матрицы
-    printf("Enter the elements of the second matrix: \n");
-    for (i = 0; i < n; i++) 
-	{
-        for (j = 0; j < n; j++) 
-		{
-            scanf("%lf", &matrix2[i * n + j]);
+    printf("enter elenents of two matrix:\n");
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < n; j++) {
+            scanf("%lf", &matrix2[i][j]);
         }
     }
 
-    // запрос операции
-    printf("Enter the operation (+, -, or *): ");
-    scanf(" %c", &operation);
+    char op;
+    printf("enter (+, -, *): ");
+    scanf(" %c", &op);
 
-    // вызов функции, которая вычисляет операцию и возвращает результат
-    result = performOperation(matrix1, matrix2, n, operation);
+    // Вычисление операции над матрицами
+    double **result = matrix_operations(matrix1, matrix2, n, op);
+    if(result == NULL) {
+        return 1;
+    }
 
-    // вывод результата
-    printf("Resulting Matrix:\n");
-    for (i = 0; i < n; i++) 
-	{
-        for (j = 0; j < n; j++)
-		{
-            printf("%lf ", result[i * n + j]);
+    // Вывод результата
+    printf("result:\n");
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < n; j++) {
+            printf("%lf ", result[i][j]);
         }
         printf("\n");
     }
 
-    // освобождение выделенной памяти
-    free(matrix1);
-    free(matrix2);
-    free(result);
+    // Освобождение памяти
+    free_matrix(matrix1, n);
+    free_matrix(matrix2, n);
+    free_matrix(result, n);
 
     return 0;
 }
 
-// функция выполнения операции между двумя матриц-ми
-double* performOperation(double* matrix1, double* matrix2, int n, char operation) {
-    int i, j;
-    double* result;
-
-    // динамическое выделение памяти для результирующей матрицы
-    result = (double*)malloc(n * n * sizeof(double));
-
-    // проверка операции и вычисление результата
-    switch (operation) 
-	{
-        case '+':
-            for (i = 0; i < n; i++) 
-			{
-                for (j = 0; j < n; j++) 
-				{
-                    result[i * n + j] = matrix1[i * n + j] + matrix2[i * n + j];
-                }
-            }
-            break;
-        case '-':
-            for (i = 0; i < n; i++) 
-			{
-                for (j = 0; j < n; j++) 
-				{
-                    result[i * n + j] = matrix1[i * n + j] - matrix2[i * n + j];
-                }
-            }
-            break;
-        case '*':
-            for (i = 0; i < n; i++) 
-			{
-                for (j = 0; j < n; j++) 
-				{
-                	int k;
-                    result[i * n + j] = 0;
-                    for (k = 0; k < n; k++) 
-					{
-                        result[i * n + j] += matrix1[i * n + k] * matrix2[k * n + j];
-                    }
-                }
-            }
-            break;
-        default:
-            // если операция не соответствует ни одному из требуемых знаков
-            printf("Invalid operation.\n");
-            return NULL;
-    }
-
-    return result;
-}
