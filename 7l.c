@@ -19,6 +19,7 @@ int compare(const void* a, const void* b)
 } 
  
 int main() 
+// Открываем файл и проверяем на наличие информации в нем
 { 
     FILE* input = fopen("11.txt", "r"); 
     FILE* output = fopen("22.txt", "w"); 
